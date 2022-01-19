@@ -1,5 +1,5 @@
 variables:                        # Good to have a comment here, for example:
-  NEXUS_REGISTRY: nexus.prjx.uk
+  NEXUS_REGISTRY: nexus.prjx.uk/repository/
   NEXUS_REGISTRY_USER: admin
   NEXUS_REGISTRY_PASSWORD: kz77-9prsLxHNojFffv
 
