@@ -38,7 +38,7 @@ docker-build:
       echo "Project is $CI_PROJECT_NAME"
       echo "Project is $tag"
       echo "Full call is $NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}"
-    - docker build --pull -t "$NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}" .
+    - docker build --pull -t "$NEXUS_REGISTRY$CI_PROJECT_NAME${tag}" .
     - docker push "$NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}"
   # Run this job in a branch where a Dockerfile exists
   rules:
