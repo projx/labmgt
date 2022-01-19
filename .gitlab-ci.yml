@@ -22,7 +22,7 @@ docker-build:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$NEXUS_REGISTRY_USER" -p "$NEXUS_REGISTRY_PASSWORD" $NEXUS_REGISTRY
+    - docker login -u "admin" -p kz77-9prsLxHNojFffv nexus.prjx.uk/repository/
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
