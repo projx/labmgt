@@ -45,3 +45,12 @@ docker-build:
     - if: $CI_COMMIT_BRANCH
       exists:
         - Dockerfile
+
+upload:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - 'apk --no-cache add curl'
+    - 'curl -X POST -H "Content-Type: application/json" -d "{\"chat_id\": \"<YourGroupID>\", \"text\": \"CI: new version was uploaded, see: https://preview.startup.com\"}" https://api.telegram.org/bot<YourBOTToken>/sendMessage '
+  only:
+    - main
