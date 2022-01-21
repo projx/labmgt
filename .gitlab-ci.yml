@@ -16,7 +16,8 @@ variables:                        # Good to have a comment here, for example:
 # for the default branch and all other (MR) branches.
 
 stages:
-  - ""
+  - build
+  - notify
 
 
 docker-build:
