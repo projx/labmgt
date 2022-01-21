@@ -51,6 +51,6 @@ upload:
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
-    - 'curl -X POST -H "Content-Type: application/json" -d "{\"chat_id\": \"<YourGroupID>\", \"text\": \"CI: new version was uploaded, see: https://preview.startup.com\"}" https://api.telegram.org/bot<YourBOTToken>/sendMessage '
+    - 'curl -X POST -d "body=test message" http://syn-01.prjx.uk:8009/notify/alert-net'
   only:
     - main
