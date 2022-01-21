@@ -17,7 +17,8 @@ variables:                        # Good to have a comment here, for example:
 
 stages:
   - build
-  - notify
+  - notify_failure
+  - notify_success
 
 
 docker-build:
@@ -52,11 +53,18 @@ docker-build:
       exists:
         - Dockerfile
 
-notify:
+notify_failure:
   stage: notify
   when: on_failure
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
-    - 'curl -X POST -d "body=test message" http://syn-01.prjx.uk:8009/notify/alert-net'
+    - 'curl -X POST -d "body=Build Failed" http://syn-01.prjx.uk:8009/notify/alert-net'
 
+notify_success:
+  stage: notify
+  when: on_success
+  image: alpine:latest
+  script:
+    - 'apk --no-cache add curl'
+    - 'curl -X POST -d "body=Build success" http://syn-01.prjx.uk:8009/notify/alert-net'
