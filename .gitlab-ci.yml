@@ -15,10 +15,15 @@ variables:                        # Good to have a comment here, for example:
 # This template uses one generic job with conditional builds
 # for the default branch and all other (MR) branches.
 
+stages:
+  - ""
+
+
 docker-build:
+  stage: build
   # Use the official docker image.
   image: docker:latest
-  stage: build
+
   services:
     - docker:dind
   before_script:
@@ -46,11 +51,11 @@ docker-build:
       exists:
         - Dockerfile
 
-upload:
-  stage: deploy
+notify:
+  stage: notify
+  when: on_failure
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
     - 'curl -X POST -d "body=test message" http://syn-01.prjx.uk:8009/notify/alert-net'
-  only:
-    - main
+
