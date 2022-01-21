@@ -66,4 +66,4 @@ notify_success:
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
-    - 'curl -X POST -d "body=Build success" http://syn-01.prjx.uk:8009/notify/alert-net'
+    - 'curl -X POST -d "body=Build success!!!" http://syn-01.prjx.uk:8009/notify/alert-net'
