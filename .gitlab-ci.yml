@@ -17,8 +17,7 @@ variables:                        # Good to have a comment here, for example:
 
 stages:
   - build
-  - notify_failure
-  - notify_success
+  - notify
 
 
 docker-build:
