@@ -1,5 +1,5 @@
 include:
-  - project: 'kelvin/_templates/'
+  - project: 'kelvin/_templates'
     file: 'gitlab-ci.yml'
 
 # This specific template is located at:
