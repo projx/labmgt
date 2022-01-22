@@ -1,11 +1,6 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Docker.gitlab-ci.yml
 
-variables:  
-  NEXUS_REGISTRY: nexus.prjx.uk/repository
-  NEXUS_REGISTRY_USER: admin
-  NEXUS_REGISTRY_PASSWORD: kz77-9prsLxHNojFffv
-
 stages:
   - build
   - notify
@@ -51,7 +46,7 @@ notify_failure:
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
-    - 'curl -X POST -d "body=Build failure - $NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}" http://syn-01.prjx.uk:8009/notify/alert-net'
+    - 'curl -X POST -d "body=Build failure - $PRJX_REG/$CI_PROJECT_NAME${tag}" http://syn-01.prjx.uk:8009/notify/alert-net'
 
 notify_success:
   stage: notify
@@ -60,7 +55,7 @@ notify_success:
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
-    - 'curl -X POST -d "body=Build success  - $NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}" http://syn-01.prjx.uk:8009/notify/alert-net'
+    - 'curl -X POST -d "body=Build success  - $PRJX_REG/$CI_PROJECT_NAME${tag}" http://syn-01.prjx.uk:8009/notify/alert-net'
 
 
 
