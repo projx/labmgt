@@ -57,8 +57,7 @@ notify_failure:
   stage: build_notify
   when: on_failure
   rules:
-    - if: $CI_COMMIT_BRANCH && $CI_COMMIT_TAG 
-
+    - if: $CI_COMMIT_TAG != null
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
@@ -68,8 +67,7 @@ notify_success:
   stage: build_notify
   when: on_success
   rules:
-    - if: $CI_COMMIT_BRANCH && $CI_COMMIT_TAG 
-
+    - if: $CI_COMMIT_TAG != null
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
