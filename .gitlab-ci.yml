@@ -55,7 +55,6 @@ docker-build:
 notify_failure:
   stage: notify
   when: on_failure
-
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
@@ -64,10 +63,11 @@ notify_failure:
 notify_success:
   stage: notify
   when: on_success
-
+  needs: [docker-build]
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
     - 'curl -X POST -d "body=Build success  - $NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}" http://syn-01.prjx.uk:8009/notify/alert-net'
+
 
 
