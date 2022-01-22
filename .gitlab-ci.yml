@@ -24,7 +24,7 @@ docker-build:
   services:
     - docker:dind
   before_script:
-    - docker login -u "admin" -p kz77-9prsLxHNojFffv nexus.prjx.uk/repository/
+    - docker login -u $PRJX_REG_USER -p $PRJX_REG_PASS $PRJX_REG/
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
@@ -36,13 +36,13 @@ docker-build:
         tag=":$CI_COMMIT_REF_SLUG"
         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
       fi
-      echo "Registry is $PRJX_REGISTRY"      
+      echo "Registry is $PRJX_REG"      
       echo "Project is $CI_PROJECT_NAME"
       echo "Tags $CI_COMMIT_REF_NAME and $CI_COMMIT_TAG"
       echo "Project is $tag"
-      echo "Full call is $NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}"
-    - docker build --pull -t "$NEXUS_REGISTRY$CI_PROJECT_NAME${tag}" .
-    - docker push "$NEXUS_REGISTRY$CI_PROJECT_NAME${tag}"
+      echo "Full call is $PRJX_REG/$CI_PROJECT_NAME${tag}"
+    - docker build --pull -t "$PRJX_REG/$CI_PROJECT_NAME${tag}" .
+    - docker push "$PRJX_REG/$CI_PROJECT_NAME${tag}"
   ## CI_COMMIT_TAG
 
 notify_failure:
