@@ -17,7 +17,7 @@ variables:                        # Good to have a comment here, for example:
 
 stages:
   - build
-  - notify
+  - build_notify
 
 
 docker-build:
@@ -53,16 +53,22 @@ docker-build:
 
 
 notify_failure:
-  stage: notify
+  stage: build_notify
   when: on_failure
+  rules:
+    - if: $CI_COMMIT_BRANCH && $CI_COMMIT_TAG 
+
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
     - 'curl -X POST -d "body=Build failure - $NEXUS_REGISTRY/$CI_PROJECT_NAME${tag}" http://syn-01.prjx.uk:8009/notify/alert-net'
 
 notify_success:
-  stage: notify
+  stage: build_notify
   when: on_success
+  rules:
+    - if: $CI_COMMIT_BRANCH && $CI_COMMIT_TAG 
+
   image: alpine:latest
   script:
     - 'apk --no-cache add curl'
