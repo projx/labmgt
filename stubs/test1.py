@@ -2,10 +2,10 @@
 ## https://github.com/vmware/pyvmomi-community-samples/issues/274
 ## https://tanulb.medium.com/ansible-in-a-virtual-environment-c3ae234f7629
 
-from pyVim import connect, task
+from pyvim import connect, task
 from pyVmomi import vim
-from tools import cli
-from tools import tasks
+# from tools import cli
+# from tools import tasks
 from pprint import pprint
 import getpass
 import ssl
@@ -14,7 +14,7 @@ import atexit
 
 host = "10.10.50.69"
 user = "administrator@vsphere.local"
-password = "J4=866Tyewr8H43J"
+password = ""
 port = "443"
 server_instance = False
 cluster_name = "Home"
@@ -87,8 +87,9 @@ for cluster_obj in get_obj(content, vim.ComputeResource):
         print(host.name)
 
         if host.name == host_name:
-            print("Found")
-            host.
+            print("Found - {}".format(host.name))
+            host.EnterMaintenanceMode(0)
+
     # else:
     #     print
     #     cluster_obj.name

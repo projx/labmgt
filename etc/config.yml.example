@@ -1,0 +1,24 @@
+apc:
+  password: apc
+  server: 10.10.50.205
+  username: apc
+hosts:
+  esx-01.domain.com:
+    enabled: false
+    fqdn: esx-01.domain
+    outlet: '5'
+    web_ui: https://esx-01.domain.com/ui/#/login
+  esx-02.domain.com:
+    enabled: false
+    fqdn: esx-01.domain
+    outlet: '4'
+    web_ui: https://esx-02.domain.com/ui/#/login
+settings:
+  power_cycle_sleep: 10
+  show_debug_output: true
+  webui_check_sleep: 280
+vcenter:
+  password: J4=866Tyewr8H43J
+  port: 443
+  server: vcenter.domain
+  username: administrator@vsphere.local
