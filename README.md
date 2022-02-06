@@ -1,3 +1,3 @@
 # labmgt
 
-test test
+pip freeze > requirements.txt
