@@ -5,6 +5,7 @@ from prjxcore.AppLog import applog
 from lib import host_args
 from pprint import pprint
 import click
+import os
 
 @click.group()
 @click.option('-s', '--suppress', is_flag=True, default=False, help="Suppress most output (Note actual output level is defined in settings.yml")
@@ -16,7 +17,9 @@ def main(suppress):
     applog.set_enabled(True)
     applog.set_info(True)
 
-    ConfigManager.load("etc/config.yml")
+    workdir = dir_path = os.path.dirname(os.path.realpath(__file__))
+    cfg_path = workdir + "/etc/config.yml"
+    ConfigManager.load(cfg_path)
     debug = ConfigManager.get_value("settings", "show_debug_output")
     applog.set_debug(debug)
 
