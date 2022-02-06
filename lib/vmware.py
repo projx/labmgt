@@ -59,7 +59,7 @@ class ESXiTaskManager:
                 task.WaitForTasks(tasks=self.tasks, onProgressUpdate=progress_call)
             except (Exception) as e:
                 applog.info("Houston, we have a problem: " + e.msg)
-                raise e
+
 
 
 """
