@@ -1,4 +1,4 @@
-from pyvim import connect, task
+from pyVim import connect, task
 from pyVmomi import vim
 from pprint import pprint
 from prjxcore.AppLog import applog
