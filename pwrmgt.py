@@ -28,4 +28,3 @@ if __name__ == '__main__':
     ## Register the CLI arguments - These are broken out to make them more modular
     main.add_command(host_args.host)
     main()
-

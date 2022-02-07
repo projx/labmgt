@@ -1,6 +1,6 @@
 apc:
   password: apc
-  server: 10.10.50.205
+  server: 192.168.5.200
   username: apc
 hosts:
   esx-01.domain.com:
@@ -18,7 +18,8 @@ settings:
   show_debug_output: true
   webui_check_sleep: 280
 vcenter:
-  password: J4=866Tyewr8H43J
+  username: administrator@vsphere.local
+  password: password
   port: 443
   server: vcenter.domain
-  username: administrator@vsphere.local
+

@@ -90,8 +90,6 @@ class ESXiHostManager:
     def __init__(self):
         self.hosts = dict()
 
-
-
     def shutdown_hosts(self, forced_shutdown=False):
         tasks = list()
         for key, host in self.hosts.items():
@@ -100,6 +98,14 @@ class ESXiHostManager:
             tasks.append(task)
 
         return tasks
+
+    def check_maintenance_status(self, expected_status=True):
+        for key, host in self.hosts.items():
+            result = host.runtime.inMaintenanceMode
+            if result != expected_status:
+                applog.info("Host {} maintenance mode expect {}, actual {}".format(key, expected_status, result))
+                return key
+        return False
 
     def power_on_hosts(self):
         tasks = list()
@@ -113,6 +119,10 @@ class ESXiHostManager:
     def enter_maintenance(self, timeout=30, vacate=True):
         tasks = list()
         for key, host in self.hosts.items():
+            if host.runtime.inMaintenanceMode:
+                applog.info("Host {} is already in maintenance mode".format(key))
+                continue
+
             applog.info("Host {} is entering maintenance mode".format(key))
             task = host.EnterMaintenanceMode_Task(timeout, vacate)
             tasks.append(task)

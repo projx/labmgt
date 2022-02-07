@@ -9,10 +9,16 @@ class VMWareRunner:
     hostmgr = None
     taskmgr = ESXiTaskManager()
 
+    def __init__(self, vcenter, hosts):
+        self.connect(vcenter['server'], vcenter['username'], vcenter['password'], vcenter['port'], hosts)
+
+    def connect_other(self, vcenter, hosts):
+        self.connect(vcenter['server'], vcenter['username'], vcenter['password'], vcenter['port'], hosts)
+
     def connect(self, server, username, password, port, hosts):
         conn_manager = ESXiConnectionManager(server, username, password, port)
         content = conn_manager.get_content()
-        taskmgr = ESXiTaskManager()
+        self.taskmgr = ESXiTaskManager()
         self.hostmgr = ESXiHostManager()
         self.hostmgr.get_hosts(content, esxi_hosts=hosts)
         # task_list = host_manager.enter_maintenance(60, True)
@@ -30,6 +36,9 @@ class VMWareRunner:
 
         self.taskmgr.add_task_list(task_list)
 
+    def check_maintenance_status(self, expected_status):
+        return self.hostmgr.check_maintenance_status(expected_status)
+
 
 
 class APCRunner:
@@ -44,21 +53,6 @@ class APCRunner:
     def up(self):
         self.apcmgr.power(self.apcmgr.IMMEDIATE_ON)
 
-class WebRunner:
-    webmgr = None
-
-
-
-
-
-def __get_vm_runner():
-    applog.debug("Getting vm runner")
-    vcenter = ConfigManager.get_section('vcenter')
-    hosts = ConfigManager.get_section('hosts')
-    hosts = list(hosts.keys())
-    runner = VMWareRunner()
-    runner.connect(vcenter['server'], vcenter['username'], vcenter['password'], vcenter['port'], hosts)
-    return runner
 
 def __get_apc_runner(hosts = False):
     applog.debug("Getting APC runner")
@@ -80,9 +74,11 @@ def host():
 
 @host.command('pause')
 def pause():
-    """ Put hosts into maintenance mode """
+    # """ Put hosts into maintenance mode """
     applog.info("Paused - Enabling maintenance")
-    runner = __get_vm_runner()
+    runner = VMWareRunner(ConfigManager.get_section('vcenter'),
+                        list(ConfigManager.get_section('hosts').keys()))
+
     runner.maintenance(True)
     runner.taskmgr.wait(True)
 
@@ -91,7 +87,8 @@ def pause():
 def unpause():
     """ Exit hosts from maintenance mode """
     applog.info("Unpaused - Exiting maintenance")
-    runner = __get_vm_runner()
+    runner = VMWareRunner(ConfigManager.get_section('vcenter'),
+                        list(ConfigManager.get_section('hosts').keys()))
     runner.maintenance(False)
     runner.taskmgr.wait(True)
 
@@ -100,11 +97,21 @@ def unpause():
 def shutdown():
     """ Exit hosts from maintenance mode """
     applog.info("Shutdown - Evacuating hosts of VMs and shutting down")
-    runner = __get_vm_runner()
+    runner = VMWareRunner(ConfigManager.get_section('vcenter'),
+                        list(ConfigManager.get_section('hosts').keys()))
+
     runner.maintenance(True)
     runner.taskmgr.wait(True)
-    runner.shutdown(True)
-    runner.taskmgr.wait(True)
+    result = runner.check_maintenance_status(expected_status=True)
+
+    if result!=False:
+        applog.error("Shutdown aborting, {} is not in maintenance mode".format(result))
+        raise Exception("Shutdown aborting, {} is not in maintenance mode".format(result))
+    else:
+        applog.info("All host successfully placed into maintenance mode, shutting them down")
+        runner.shutdown(True)
+        runner.taskmgr.wait(True)
+
 
 @host.command('up')
 def up():
@@ -138,8 +145,9 @@ def up():
     else:
         applog.info("No hosts to power cycle, everything is already up!")
 
+    vm_runner = VMWareRunner(ConfigManager.get_section('vcenter'),
+                        list(ConfigManager.get_section('hosts').keys()))
 
-    vm_runner = __get_vm_runner()
     vm_runner.maintenance(False)
     vm_runner.taskmgr.wait(True)
     applog.info("Successfully exited maintenance mode")
