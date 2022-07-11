@@ -1,4 +1,6 @@
 # App and ide  specific
+etc/config.yml
+stubs/*
 /conf/esxi-hosts.conf
 /etc/*.yml
 /logs/*

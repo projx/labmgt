@@ -29,7 +29,6 @@ class VMWareRunner:
 
     def maintenance(self, enabled = True):
         if enabled==True:
-            print("here...")
             task_list = self.hostmgr.enter_maintenance(60, True)
         else:
             task_list = self.hostmgr.exit_maintenance()
