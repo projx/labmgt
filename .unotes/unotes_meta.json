@@ -1,0 +1,47 @@
+{
+  "name": "",
+  "isOrdered": true,
+  "folders": {
+    "etc": {
+      "name": "etc",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    },
+    "lib": {
+      "name": "lib",
+      "isOrdered": true,
+      "folders": {
+        "__pycache__": {
+          "name": "__pycache__",
+          "isOrdered": true,
+          "folders": {},
+          "files": {}
+        },
+        "cli": {
+          "name": "cli",
+          "isOrdered": true,
+          "folders": {
+            "__pycache__": {
+              "name": "__pycache__",
+              "isOrdered": true,
+              "folders": {},
+              "files": {}
+            }
+          },
+          "files": {}
+        }
+      },
+      "files": {}
+    },
+    "stubs": {
+      "name": "stubs",
+      "isOrdered": true,
+      "folders": {},
+      "files": {}
+    }
+  },
+  "files": {
+    "README": 0
+  }
+}

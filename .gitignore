@@ -1,4 +1,5 @@
 # App and ide  specific
+.idea/*
 etc/config.yml
 stubs/*
 /conf/esxi-hosts.conf
